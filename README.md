@@ -1,2 +1,2 @@
-# sitepoint-telegram-bot
-Code base for Sitepoint article to build bookmark telegram bot
+# formulaonecompanion-telegram-bot
+Code for the @FormulaOneCompanion_bot Telegram bot
