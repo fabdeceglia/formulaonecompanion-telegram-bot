@@ -1,7 +1,7 @@
 {
-  "name": "telegram-bot-sitepoint",
+  "name": "telegram-bot-formulaonecompanion",
   "version": "1.0.0",
-  "description": "Telegram bot for labelling articles",
+  "description": "Telegram bot for formula one results",
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
@@ -12,7 +12,7 @@
     "Node.js",
     "Javascript"
   ],
-  "author": "Michiel Mulders",
+  "author": "Fabrizio de Ceglia",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.0.0",
