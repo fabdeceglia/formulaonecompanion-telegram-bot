@@ -4,8 +4,7 @@
   "description": "Telegram bot for formula one results",
   "main": "src/app.js",
   "scripts": {
-    "start": "node src/app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/app.js"
   },
   "keywords": [
     "Telegram",
@@ -16,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "dotenv": "^8.0.0",
-    "node-telegram-bot-api": "^0.30.0"
+    "node-telegram-bot-api": "^0.30.0",
+    "request": "^2.88.0"
   }
 }
