@@ -36,16 +36,41 @@ bot.onText(/\/start/, (msg) => {
 });
 
 bot.onText(/\/driverStandings/, (msg) => {
-    bot.sendMessage(
-        chatId,
-        `Feature WIP`, 
-        {
-            parse_mode: 'HTML',
-        }
-    );
+    const chatId = msg.chat.id;
+    
+    request.get(endpoints.driverStandings, (error, response, body) => {
+        const driverStandings = JSON.parse(body);
+
+        const mappedDriverStandings = lodash.map((driverStanding) => {
+            return {
+                position: driverStanding.position,
+                driver: `${driverStanding.Driver.givenName} ${driverStanding.Driver.familyName}`,
+                points: driverStanding.points
+            }
+        })(driverStandings);
+
+        let driverStandingsMsg = ``;
+
+        lodash.forEach((mappedDriverStanding) => {
+            driverStandingsMsg += `${currentOS.EOL}${mappedDriverStanding.position}. <b>${mappedDriverStanding.driver}</b> - ${mappedDriverStanding.points} pts.`
+        })(mappedDriverStandings);
+
+        bot.sendMessage(
+            chatId,
+            driverStandingsMsg, 
+            {
+                parse_mode: 'HTML',
+            }
+        );
+
+    })
+
+
 });
 
 bot.onText(/\/constructorStandings/, (msg) => {
+    const chatId = msg.chat.id;
+
     bot.sendMessage(
         chatId,
         `Feature WIP`, 
