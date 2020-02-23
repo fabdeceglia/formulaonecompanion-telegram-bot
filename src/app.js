@@ -3,6 +3,8 @@ const TelegramBot = require('node-telegram-bot-api');
 const currentOS = require('os');
 const request = require('request');
 const endpoints = require('./endpoints');
+const lodash = require('lodash/fp');
+const moment = require('moment');
 
 const token = process.env.TOKEN;
 
@@ -24,25 +26,63 @@ bot.onText(/\/start/, (msg) => {
       
             Available commands:
         
-            /schedule <b>URL</b> - The season's schedule
+            /raceList <b>URL</b> - The season's race list
+            /driverStandings <b>URL</b> - The driver's standings
+            /constructorStandings <b>URL</b> - The constructor's standings
         `, {
             parse_mode: 'HTML',
         }
     );
 });
 
-bot.onText(/\/schedule/, (msg) => {
+bot.onText(/\/driverStandings/, (msg) => {
+    bot.sendMessage(
+        chatId,
+        `Feature WIP`, 
+        {
+            parse_mode: 'HTML',
+        }
+    );
+});
+
+bot.onText(/\/constructorStandings/, (msg) => {
+    bot.sendMessage(
+        chatId,
+        `Feature WIP`, 
+        {
+            parse_mode: 'HTML',
+        }
+    );
+});
+
+
+bot.onText(/\/raceList/, (msg) => {
     const chatId = msg.chat.id;
     request.get(endpoints.seasonSchedule, (error, response, body) => {
+
+        const races = JSON.parse(body);
+
+        const mappedRaces = lodash.map((race) => {
+            return {
+                round: race.round,
+                name: race.raceName,
+                locality: race.Circuit.Location.locality,
+                date: moment(race.date).format('MMM D YYYY')
+            }
+        })(races);
+        
+        let racesMsg = ``
+
+        lodash.forEach((mappedRace) => {
+            racesMsg += `${currentOS.EOL}<b>${mappedRace.round}. ${mappedRace.name} </b> - ${mappedRace.locality} - <i>${mappedRace.date}</i>`
+        })(mappedRaces);
+
         bot.sendMessage(
             chatId,
-            `
-            ${currentOS.EOL}<b>1. Australian Gran Prix </b> - Melborune, Australia - 17th March 2019
-            ${currentOS.EOL}<b>2. Bahrain Grand Prix </b> - Sakhir, Bahrain - 31th March 2019
-            `, {
+            racesMsg, 
+            {
                 parse_mode: 'HTML',
             }
         );
     })
-
 });

@@ -1,6 +1,6 @@
-//todo: read the host from env
+require('dotenv').config();
 
-const host = 'https://f1beplayground.now.sh';
+const host = process.env.HOST;
 
 module.exports = {
     seasonSchedule: `${host}/season-schedule`,
